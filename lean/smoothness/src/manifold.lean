@@ -3,7 +3,6 @@ import data.set.basic
 
 noncomputable theory
 
-
 @[user_attribute]
 meta def my_continuity_lemmas : user_attribute :=
 { name := `my_continuity_lemmas,
