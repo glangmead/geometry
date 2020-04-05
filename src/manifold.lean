@@ -3,6 +3,25 @@ import data.set.basic
 
 noncomputable theory
 
+/--
+Smooth functions from R^n to R form a commutative algebra over R (pointwise addition, multiplication etc.)
+Same for functions from a manifold.
+Evaluation-at-x is an algebra morphism from smooth functions over R to R.
+Any such algebra morphism is given by evaluation at x. (Milnor's exercise).
+
+Lemmas for Milnor's exercise:
+- intersection of closed sets forming a (dual of ideal)
+- set is nonempty
+- that intersection is the point
+
+Move to category theory: embedding of SmoothMfd in CAlg_R is full and faithful!
+
+Next goals: connections; perturbing maps to be immersion/embedding (very central to 4-dim being interesting); Morse theory
+(basically following Scorpan)
+
+Could a textbook sort of play out by stating a bunch of theorems then going back to prove them?
+-/
+
 @[user_attribute]
 meta def my_continuity_lemmas : user_attribute :=
 { name := `my_continuity_lemmas,
@@ -72,3 +91,5 @@ continuous.mul (continuous_apply _) (real.continuous.inv _ _)
 
 #check continuous_inv
 
+example {P Q R : Prop} (h₁ : Q → P) (h₂ : R) (h₃ : R → Q) : P ∧ R :=
+by show_term { tauto }
