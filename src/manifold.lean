@@ -93,3 +93,6 @@ continuous.mul (continuous_apply _) (real.continuous.inv _ _)
 
 example {P Q R : Prop} (h₁ : Q → P) (h₂ : R) (h₃ : R → Q) : P ∧ R :=
 by show_term { tauto }
+
+#explode nat.strong_rec_on
+
