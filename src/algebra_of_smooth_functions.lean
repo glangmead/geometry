@@ -99,11 +99,30 @@ instance smooth_fns_are_ring {n : ℕ}
   : ring (smooth_real_fns I M) := {
   add := begin
       refine λ f g, ⟨f.val + g.val, _⟩,
-      -- differentiable.add
-      sorry,
+      intro x,
+      have hcf : continuous_at f.val x := and.left (f.property x),
+      have hcg : continuous_at g.val x := and.left (g.property x),
+      have hc : continuous_at (f.val + g.val) x := continuous_at.add hcf hcg,
+      refine and.intro hc _,
+      exact differentiable_within_at.add (and.right (f.property x)) (and.right (g.property x)),
     end,
-  mul := begin refine λ f g, ⟨f.val * g.val, _⟩, sorry, end, --differentiable.mul
-  neg := begin refine λ f, ⟨-f.val, _⟩, sorry, end, -- differentiable.neg
+  mul := begin
+      refine λ f g, ⟨f.val * g.val, _⟩,
+      intro x,
+      have hcf : continuous_at f.val x := and.left (f.property x),
+      have hcg : continuous_at g.val x := and.left (g.property x),
+      have hc : continuous_at (f.val * g.val) x := continuous_at.mul hcf hcg,
+      refine and.intro hc _,
+      exact differentiable_within_at.mul (and.right (f.property x)) (and.right (g.property x)),
+    end,
+  neg := begin 
+    refine λ f, ⟨-f.val, _⟩,
+    intro x,
+    have hcf : continuous_at f.val x := and.left (f.property x),
+    have hc : continuous_at (-f.val) x := continuous_at.neg hcf,
+    refine and.intro hc _,
+    exact differentiable_within_at.neg (and.right (f.property x)),
+  end,
   zero := ⟨0, mdifferentiable_const I r_model⟩,
   one := ⟨1, mdifferentiable_const I r_model⟩,
   add_assoc := by {intros; apply subtype.eq; apply add_assoc},
@@ -123,10 +142,17 @@ instance smooth_fns_are_algebra {n : ℕ}
   (M : Type) [tm: topological_space M] [m: manifold (euclidean_space n) M] [smc: smooth_manifold_with_corners I M] 
   : algebra ℝ (smooth_real_fns I M) := 
 {
-  smul := sorry, --λ r f, ⟨λ m, r * f.val m, continuous.mul mdifferentiable_const I r_model f.property⟩,
+  smul := begin
+    refine λ r f, ⟨λ m, r * f.val m, _⟩,
+    intro x,
+    have hcf : continuous_at f.val x := and.left (f.property x),
+    have hc : continuous_at (λ m, r * f.val m) x := continuous_at.mul continuous_at_const hcf,
+    refine and.intro hc _,
+    exact differentiable_within_at.mul (differentiable_within_at_const r) (and.right (f.property x)),
+  end,
   to_fun := λ r, ⟨λ m, r, mdifferentiable_const I r_model⟩,
   commutes' := by {intros; apply subtype.eq; ext; apply mul_comm},
-  smul_def' := sorry,--by {intros; apply subtype.eq; ext; refl},
+  smul_def' := by {intros; apply subtype.eq; ext; refl},
   map_one' := by {intros; apply subtype.eq; ext; refl},
   map_mul' := by {intros; apply subtype.eq; ext; refl},
   map_zero' := by {intros; apply subtype.eq; ext; refl},
@@ -136,18 +162,5 @@ instance smooth_fns_are_algebra {n : ℕ}
 instance r_smooth_mfd : smooth_manifold_with_corners r_model ℝ := {}
   
 end smooth
-  
-  -- begin
-  --   intros r f,
-  --   ext,
-  --   show f x * r = r * f x, -- change tactic, claim my expression is defeq to goal
-  --   apply mul_comm,
-  -- end,
-
--- /-- A function `f` between measurable spaces is measurable if the preimage of every
---   measurable set is measurable. -/
--- def measurable [m₁ : measurable_space α] [m₂ : measurable_space β] (f : α → β) : Prop :=
--- m₂ ≤ m₁.map f
-
 
 end playground
