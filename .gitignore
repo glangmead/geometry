@@ -1,3 +1,7 @@
+## Agda
+*.agdai
+MAlonzo/**
+
 ## Lean
 *.olean
 _target
