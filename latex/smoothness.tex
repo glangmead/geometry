@@ -5,6 +5,9 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{tikz-cd}
+\usepackage{tipa}
+\usepackage{graphicx}
+\usepackage{float}
 
 %%% Common categories
 \newcommand{\tp}{\;\mathrm{type}}
@@ -53,6 +56,18 @@
 \newcommand{\pshcart}{\psh{\cart}}
 \newcommand{\rmodal}{\Re}
 \newcommand{\imodal}{\Im}
+\newcommand{\shape}{\ensuremath{\text{\textesh}}}
+\newcommand{\op}[1]{#1^{\textsf{op}}}
+\newcommand{\pt}{\mathrm{pt}}
+\newcommand{\Aut}{\mathrm{Aut}}
+\newcommand{\BAut}{\mathrm{BAut}}
+\newcommand{\im}{\mathrm{im}}
+\newcommand{\Fin}{\mathrm{Fin}}
+\newcommand{\Type}{\mathrm{Type}}
+
+\newcommand{\bg}{\ensuremath{\textbf{B}G}}
+\newcommand{\bgconn}{\ensuremath{\textbf{B}G_{\textsf{conn}}}}
+\newcommand{\bgdiff}{\ensuremath{\textbf{B}G_{\textsf{diff}}}}
 
 \newcommand{\gc}[1]{\marginpar{\bf $\leftarrow$ {#1}}}
 %\newcommand{\gc}[1]{}
@@ -163,7 +178,7 @@ The category \pshcart\ consists of all such functors, together with the natural 
 
 BUT.
 
-If $C$ already has some colimits, \psh{C} will not respect these. It is \emph{too free}. 
+If $C$ already has some colimits, \psh{C} will not respect these. It is \emph{too free}.
 
 Consider two subobjects of $\rr^n$ in \cart, say two disjoint open balls $U$ and $V$. \gc{complete the example}
 
@@ -189,11 +204,11 @@ The proof of faithfulness is interesting and we will explore it fully because it
 \begin{mylemma}\label{lemma:smoothfact1}(``Milnor's Exercise'') The map $M\xrightarrow[]{\mathrm{ev}}\Hom(\cinfty(M),\rr)=\Hom(\cinfty(M),\cinfty(\rr^0))$ given by evaluation at a point of $M$ is a bijection.
 \end{mylemma}
 \begin{proof}
-See also Kolář, Michor and Slovák \cite{kolar_natural_1993}, especially the preamble before section 35 and Corollary 35.9. Let $\phi\in\Hom(\cinfty(M), \rr)$. Then $\ker(\phi)$ is an ideal of codimension 1. (An ideal of an algebra is a vector subspace which is closed under multiplication by an arbitrary element of the algebra.) Consider the collection of zero sets $Z_f, f\in \ker(\phi)$. This collection of sets is closed under intersection: given $Z_f, Z_g$ then $Z_{(f^2+g^2)} = Z_f\cup Z_g$ and $f^2+g^2\in\ker(\phi)$. We have satisfied some of the hypotheses of the following topological lemma: 
+See also Kolář, Michor and Slovák \cite{kolar_natural_1993}, especially the preamble before section 35 and Corollary 35.9. Let $\phi\in\Hom(\cinfty(M), \rr)$. Then $\ker(\phi)$ is an ideal of codimension 1. (An ideal of an algebra is a vector subspace which is closed under multiplication by an arbitrary element of the algebra.) Consider the collection of zero sets $Z_f, f\in \ker(\phi)$. This collection of sets is closed under intersection: given $Z_f, Z_g$ then $Z_{(f^2+g^2)} = Z_f\cup Z_g$ and $f^2+g^2\in\ker(\phi)$. We have satisfied some of the hypotheses of the following topological lemma:
 
 \begin{mylemma}If $X$ is Hausdorff and $C\subseteq X$ compact, and $F=\{C_i\}$ any collection of closed subsets of $C$ with the property that $C_i, C_j\in F\implies C_i\cap C_j\in F$, then $\bigcap_i C_i \neq\emptyset$.\end{mylemma}
 
-We have a collection of sets closed under intersection, so to satisfy the hypotheses of this new lemma it suffices to show that there is some $Z_f$ compact and nonempty, for then we can use this as the set $C$. 
+We have a collection of sets closed under intersection, so to satisfy the hypotheses of this new lemma it suffices to show that there is some $Z_f$ compact and nonempty, for then we can use this as the set $C$.
 
 Suppose for a moment that we had this $Z_f$. Let's see how we can finish proving Milnor's exercise. Suppose $\bigcap_{f\in\ker(\phi)}Z_f\neq\emptyset$, and so it contains some point $x$. Now consider an arbitrary $g\in\cinfty(M,\rr)$. Construct the function $g'=g-\phi(g)1$ where the latter term means the constant function with value $\phi(g)$. Then $g'\in\ker(\phi)$, so $g'(x)=0$, i.e. $g(x)-\phi(g)1(x)=0$ and hence $\phi(g)=g(x)$, and so $\phi=\mathrm{ev}_x$ as desired.
 
@@ -270,7 +285,7 @@ Why the tensor product? It's teh coproduct in the category of commutative algebr
 We will now make $\formalcart$ into a site so as to take sheaves over it. We define a Grothendieck pre-topology with covering families $$\left\{U_i\times\dd\xrightarrow[]{\phi_i\times\mathrm{id}}\rr^n\times\dd\right\}_i\mathrm{\ such\ that\ }\left\{U_i\xrightarrow[]{\phi_i}\rr^n\right\}_i$$
 is a covering family in \cart. So the only way to cover the formal disk parts is via the identity.
 
-We define $$\formalsmoothset:=\sh{\formalcart}.$$ These are spaces defined by a consistent declaration of all teh smooth maps from $\rr^n\times\dd.$
+We define $$\formalsmoothset:=\sh{\formalcart}.$$ These are spaces defined by a consistent declaration of all the smooth maps from $\rr^n\times\dd.$
 
 \section{Functors and Kan extension}\label{sec:functors}
 First we'll look at the functors in \formalcart, and then extend them to sheaves with Kan extension.
@@ -324,8 +339,8 @@ $$
 \arrow[phantom, from=F, to=G, "\ \dashv" rotate=-90]
 & \formalsmoothset \arrow[l, "\mkern-12mu i_*"{name=H}, swap, bend left=25]
 \arrow[phantom, from=G, to=H, "\ \dashv" rotate=-90] \\
-\cart \arrow[u, "y"] \arrow[r, "i"{name=I}, shift left=2.0ex] 
-& \formalcart \arrow[l, "p"{name=P}, shift left=2.0ex, swap] 
+\cart \arrow[u, "y"] \arrow[r, "i"{name=I}, shift left=2.0ex]
+& \formalcart \arrow[l, "p"{name=P}, shift left=2.0ex, swap]
 \arrow[u, "y", swap]
 \arrow[phantom, from=I, to=P, "\dashv" rotate=-90]
 \end{tikzcd}
@@ -340,7 +355,7 @@ $i^*$ is the precomposition functor. Let $fss\in\formalsmoothset$ and $\rrn\in\c
 &\cong \Hom_{\cart} (\rrm, \rrn)
 \end{align*}
 
-This is a hint that it is taking a space to one that cannot be probed by the infinitesials.
+This is a hint that it is taking a space to one that cannot be probed by the infinitesimals.
 
 We can package all of these considerations into endofunctors on just FSS:
 \begin{align*}
@@ -369,7 +384,7 @@ And so what if we start with $\Hom_{\formalcart}(\rrm\times\dd, \rrn\times\dd')$
 &\cong \Hom_{\formalsmoothset}(y\rrm\times\dd_0, y\rrn\times\dd') \\
 &\cong \Hom_{\formalcart}(\rrm\times\dd_0, \rrn\times\dd')
 \end{align*}
-and so a coreduced FSS is one whose probes, even with nilpotents, cannot see the tangent directions. Its tangent directions are collapsed or identified. 
+and so a coreduced FSS is one whose probes, even with nilpotents, cannot see the tangent directions. Its tangent directions are collapsed or identified.
 
 “Infinitesimally close points are identified.”
 
@@ -395,7 +410,7 @@ I also want to add a functor $T$ with $TA=A[x]/x^2$ which I hope is equal to $A\
 
 When there are two modalities, the Kan extensions will move between sets of probes that can see 0, 1 or 2 iterated copies of the tangent space.
 
-There is always a map $TTM\to T_2 M=TM\times_M TM$, where the rhs is the pullback of $TM$ by $p$, i.e. each fiber over $M$ is two copies of the tangent bundle.\gc{what about Lang's claim that $T_2 M$ is only a fiber bundle not a vector bundle?}
+There is always a map $TTM\to T_2 M=TM\times_M TM$, where the right hand side is the pullback of $TM$ by $p$, i.e. each fiber over $M$ is two copies of the tangent bundle.\gc{what about Lang's claim that $T_2 M$ is only a fiber bundle not a vector bundle?}
 
 A connection is a section of this map, so $L:T_2 M\to TTM$. Given two tangent vectors you can lift that pair up to a vector in $TTM$, in fact a horizontal one. The image of the connection map is the horizontal sub-bundle of $TTM$. The kernel of the bundle projection is the vertical sub-bundle.
 
@@ -403,7 +418,154 @@ What types will we have? Apparently we'll have ones that "are $T$ of something" 
 
 Infinitesimal closeness is preserved by morphisms. Equivalently, morphisms are bundle morphisms, they preserve the fibers. Is it also equivalent to stipulate that at the algebra level the morphisms hold $x$ fixed?
 
+\section{Towards Chern-Weil, without coreduction}
+\bgconn\ is: a non-concrete simplicial presheaf, and also a groupoid version of connections mod gague. The objects are connections and the morphisms are gauge transformations. In my thesis days, connections and connections mod gauge were talked about as analogous to $EG$ and $BG$ but with connections. This was only approximately true because some gauge transformations had fixed points and so it wasn't a principal bundle because the action wasn't free. All of this will fit more nicely into this framework I dare say.
+
+There is a map $\bgconn\to\bg$. The bundles that these classify are trivial, not sure yet how to remedy that so that it can cover the frame bundle and other bundles that we need for the full Chern-Weil.
+
+Urs and Baez-Huerta describe a theory of higher parallel transport. This is where contact is made directly with classical calculations and curvature.
+
+In Baez-Huerta An Invitation to Higher Gauge Theory we find an elementary explanation about how a 2-connection on a (trivial?) 2-principal bundle associated with a 2-group is a connection plus its curvature. The intuition is simply that the holonomy functor acts on both paths and on squares that fill in the paths -- just like curvature. For everything to hang together 2-categorically the curvature appears exactly: $dA + A\wedge A$.
+
+The technology of 2-connections was invented to support string theory. But if a flat 2-connection contains in it a regular 1-connection that might be curved, then it can also serve to put standard gauge theory in a form that is accessible to modal hott with shape modality, and hence to formalization.
+
+Urs says that the flatness of one of the terms of a 2-connection is the Bianchi identity.
+
+Do we package transport with a functor $\mathsf{tra}:\shape X\to \bg$?
+
+Urs sez: A connection $\nabla$ is flat precisely if it factors through the inclusion $\flat \bg \to \bgconn$.
+
+$\bgconn(X)$ restricts to the manifold $X$.
+
+$$\left[ \op{\cart}, \mathsf{Grpd} \right](\textbf{P}_1(X), \bg) \simeq \bgconn(X)$$
+$$\left[ \op{\cart}, 2\mathsf{Grpd} \right](\textstyle\int_2(X), \bg) \simeq \flat\bg(X)$$
+
+Besides the 1 vs 2, we have $\textbf{P}$ vs $\shape$, which is the passage from paths to homotopy classes of paths, hence from connections to flat connections.
+
+Focusing on homotopy classes of paths and higher paths focuses on flat connections and higher connections.
+
+``For $G$ a Lie group, its inner-automorphism 2-group $\mathrm{INN}(G)$ is as a groupoid the universal $G$-bundle $EG$, but regarded as a 2-group with the group structure coming from the crossed module $G\to G$.''
+
+\section{Freed-Hopkins: from connections to groupoids}
+In Freed-Hopkins \cite{freed2013chernweil} they take a similar pov and construct a universal $G$-connection on a $G$-bundle $E_{\nabla}X\to B_{\nabla}X$ of which any given principal bundle \emph{with connection} is a pullback.
+
+We want to construct invariants of $G$-principal bundles on a fixed base manifold $M$. Chern-Weil theory tells us that conjugation-invariant polynomials on the lie algebra, applied to the curvature of a connection, supply such. The main theorem of this paper, worth formalizing, is that these are the only natural differential forms one can construct from a connection.
+
+They construct a classifying space of bundles with connection named $B_{\nabla}G$. They construct a universal differential form, a discrete simplicial sheaf $\Omega^{*}$. The theorem becomes a computation: find all maps $B_{\nabla}G \to \Omega^{*}.$
+
+There is a bundle $E_{\nabla}G \to B_{\nabla}G$. They compute the de Rham complex of the total space and find that it is the Weil algebra.
+
+The classifying space of differential forms requires only sheaves of sets. The connections bring in homotopy theory.
+
+Verdier hypercovering theorem.
+
+The simplicial sheaf $B_{\nabla}G$ of $G$-connections assigns to each test manifold $M$ the simplicial set associated to the groupoid of $G$-connections on $M$.
+
+The simplicial sheaf $E_{\nabla}G$ attaches to any test manifold $M$ the (associated simplicial set of the) groupoid of $G$-connections with trivialization. This is weakly equivalent to $\Omega^1 \otimes\mathfrak{g}$, i.e. the sheaf that assigns to a test manifold Lie-algebra valued 1-forms.
+
+The simplicial sheaf $B_{\nabla}^{\mathrm{triv}}G$ is ``trivializable $G$-bundles with connection'' but this is not a sheaf so in fact we use the sheaf of groupoids that is the action groupoid of $G$ acting on $\Omega^1 \otimes\mathfrak{g}$. Because the bundle admits a section, a global function $M\to G$ gives another section. Any two global sections differ by a unique such map. This construction constitutes the universal principal bundle $E_{\nabla}G \to B_{\nabla}^{\mathrm{triv}}G$.
+
+Prop 5.24:  $B_{\nabla}^{\mathrm{triv}}G\to B_{\nabla}G$ is a weak equivalence of groupoids, hence of simplicial sheaves.
+
+The reason we want the triv space is because its description as a group action lets us compute its de Rham complex, and the proposition tells us it is also the de Rham complex of $B_{\nabla}G$. Recall that Freed-Hopkins is after a proof that the invariant polynomials of the Lie algebra are the only topological invariants of a principal bundle.
+
+\section{Linking Freed-Hopkins to Schreiber}
+If FH's $B_{\nabla}^{\mathrm{triv}}G$ is Schreiber's $\bgconn$ then we can import the sub-sheaf of flat connections into modal HoTT with $\flat\bg\hookrightarrow B_{\nabla}^{\mathrm{triv}}G$.
+
+The moral will apparently be that we appear to lose something by going to flat connections, though we of course gain something too by moving to $\infty$-categories. The moral will be that we regain what we lost and much more. ``Flat connections are not so flat''?
+
+When do we need the extra control of thin homotopies vs all homotopies? $\bgconn$ is all connections and so requires thin homotopies.
+
+Flat 2-connections with values in $\mathrm{INN}G$ model 1-connections and keep track of their curvature. (Schreiber example 1.2.127).
+
+The integrated Atiyah sequence connects with higher Schreier theory and may offer an elegant package for flat connections. The fact that it's integrated means we are talking about paths and holonomy rather than splittings of vector bundles. The latter was my original approach with differential cohesion. In the integrated framework we can deal just with flat which is dual to paths.
+
+Integrated Atiyah sequence: \[ \mathrm{Ad}P \to P\times_GP \to \shape_1X.\]
+
+The middle space is interesting. It is a groupoid whose objects are points of $X$ or fibers of $P$ and whose morphisms are a certain action of $G$ on the fibers. The action is, given a point in each fiber (which both correspond to $1\in G$), this determines a map from the first fiber to the second one. A point in the first fiber is taken to the corresponding point in the second fiber so that both points correspond to $g$. I.e. each fiber is isomorphic to $G$ after choosing a base point in each, and the map is the identity once this isomorphism is chosen. We mod this by a redundant copy of $G$ which is overcounting maps when we choose two base points that are equally shifted with respect to another pair. \[X\times Y \to \Hom_G(X, Y)\] \[(x, y) \mapsto f: X \to Y\] Not injective. \[ X\times Y / G \equiv \Hom_G(X, Y).\]
+
+The left space is the subspace of this where the fiber is the same. If you work out how $G$ acts, it's by conjugation because it's very much like a change of coordinates, mapping the fiber to $G$.
+
+The map from the middle space to the right space is the composition $\shape(p)\circ\shape$, i.e. given two points, take a(?) path between them and project to the base.
+
+ A connection will be a splitting of this sequence. It's flat because we are using $\shape$.
+
+Can we use the adjunction here $\Hom(\shape X, P\times_GP) = \Hom(X, \flat P\times_GP)$.
+
+Infinitesimal Atiyah sequence: \[ 0 \to \mathrm{ad}P \to TP/G \to TX \to 0.\]
+
+The point is, what can you do synthetically. Freed-Hopkins lives in a model. Synthetically, with one modality, we can only do flat connections.
+
+\section{Bucholtz-vanDoren-Rijke}
+(Section 2) The type of pointed types is $\mathrm{Type}_\mathrm{pt}$. The homotopy groups of a pointed type are $\pi_k(A) = ||{\Omega_k(A)}||_0$ i.e. the zero-truncation (so, a set, a standard group) of the loop space.
+
+(Section 3) The 1-loop map establishes an isomorphism between higher groups and pointed, connected types. Why connected? What is connected? Answer: connectedness is the truncation of contractibility: $\sum_{a:A}\prod_{x:A}||x=a||_{-1}$.
+
+Being $n$-truncated means you have no nontrivial identities at level $n$ or above. $-2$-truncated means you are contractible. Being $n$-connected means you have no nontrivial identities below $n$, and so means your $n$-truncation $||A||_n$ is contractible. This is a generalization of the term ``simply connected''.
+
+If $A$ is a pointed type (with designated point pt), its loop space is a higher group: $\Omega A := (\pt =_A \pt)$. There is something special happening with this. We are fully leveraging the infrastructure of the identity type, which obeys group laws up to coherences, in an infinite tower. We are designating this infrastructure to \emph{be} a group. So this is synthetic, using the identity types.
+
+If $G$ is a group, then we write $BG$ for ``the'' type satisfying $G=\Omega BG$. We call $BG$ the delooping of $G$. The identification of $G$ and $BG$ connects groups to groupoids.
+
+(Section 4) Given a type $A$ and $a : A$, we have $\Aut\ a := (a = a)$. Importantly, $\BAut\ a$ is the connected component of $a$, expressed as $\im(a : 1 \to A) = (x : A) \times ||a = x||_{-1}$. This product notation is Agda style for a dependent sum.
+
+For example, consider $S_n$, the permutation group of $\Fin\ n$, which is a specific set with $n$ elements. Then $BS_n$ is the type of all $n$-element sets. This was rather mind-blowing to me at first. We started by installing the group as the automorphisms of just a single point, but along the way we obtained every equivalent object as well.
+
+A group homomorphism is a pointed map $f: G \to H$ of groups and a pointed map $Bf: BG \to BH$ of the delooping, such that $\Omega Bf \sim f$.
+
+There's a terse comment that if $h, k : G \to H$ are homorphisms between set-level groups, then they are conjugate (which I'm taking to mean that $hg = x(kg)x^{-1}$ for some $x\in H$) if the pointed maps $Bh, Bk: BG \to BH$ are freely homotopic, i.e. equal as unpointed maps $BG \to BH$. What I'm struggling with is that surely $Bh$ and $Bk$ must be pointed because $h$ and $k$ are maps between the same groups. Here is a picture from stackoverflow \gc{https://math.stackexchange.com/questions/2458349/base-point-homotopy-vs-free-homotopy-example} where two elements of the fundamental group are conjugate (by the green loop) and freely homotopic (where you are allowed to move the base point around the hole I guess?) but not homotopic.
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.2]{conjugating_loops.png}
+\end{figure}
+
+If we have a family of pointed types over a pointed type, i.e. $X:\Type_{\pt}$ and $Y : X \to_{\pt} \Type_{\pt}$, then the type of \emph{pointed sections} is a section $s$ such that $s\ \pt = \pt$, i.e. we only specify this extra data at $\pt : X$. One canonical such section is the constant section $x \mapsto \pt : Y(x)$ and so this is itself a pointed type with the constant section as base point.
+
+There are some lemmas about the levels of connectivity that hold for a space of pointed sections, given data about the connectivity of the base and fibers.
+
+The action of a group $G$ on an object $a : A$ is a map $X: BG \to A$ with $X(pt) = a$. ``Clearly'' this is the same as a homomorphism $G \to \Aut_A a$. (Because a homomorphism is defined as a deloopable map and we just defined the action in terms of the delooping.)
+
+A ``$G$-type'' is a type in the context of $BG$, i.e. a map $X : BG \to \Type$. A map of $G$-types is a function $\alpha : (z : BG) \to X(z) \to Y(z)$. This is a map for each point of $BG$. So we are calling $X$ the $G$-type, not the type $X(pt)$.
+
+Egbert: A higher group $G$ is defined to be a pointed connected type $BG$. The underlying type of the higher group $G$ is then just the loop space of $BG$. This loop space is what $G$ really is, and its group structure comes from it being the loop space of $BG$. A $G$-type should then be a type equipped with a $G$-action. We just define it as a fibration over $BG$, so that the $G$-action comes canonically from the lifting property. So, if $X : BG \to Type$, then we have
+
+- a type $X(*)$ at the base point
+- a G-action $X(*) -> X(*)$ for every loop of $BG$
+
+If $X$ would be a $G$-set, then the type of fixed points would be
+
+$$\sum (x : X(*)), \prod (p : * = *), tr(p,x) = x$$
+
+where tr is transport/lift. With a bit of abstract nonsense it follows that this is the type
+
+$$\prod (y : BG), X(y).$$
+
+However, if $X$ is not a $G$-set but a $G$-type, then that first type of fixed points isn't quite right, because it misses the higher coherences. It turns out that the Pi-type is the right thing :)
+
+Greg, later. Given a type family $X$ over a base $BG$, there are two God-given constructions that together produce exactly this fixed-point story. The first is transport: given an equality in the base $x = y$, we get a \emph{function} between fibers $X(x)\to X(y)$. Since the group is the loop space at a point, the transport function is the group action. The second operation is action on paths. Given a \emph{section} $s$  of the type family and an equality $p : x = y$ in the base, we get an equality $tr(p, s(x)) = s(y)$. The narrative with this is that we can't directly compare $s(x)$ and $s(y)$ since they live in different fibers, so first we transport $s(x)$ using $p$ then compare, and we get an equality. In the special case $p : x = x$, i.e. $p \in G$, this is a fixed point for the group action. To recap, given only the group, we only get a function on the fiber (or between fibers if the equality is not a loop). But given also a section, we also get fixed points for the function. This bears further reflection.
+
+So why do we define $X/G := \sum (y : BG), X(y)$? Quotients should have a quotient map: Here the quotient map is just the inclusion of the fiber $X(*)$. The quotient map is surjective: This follows from the fact that $BG$ is connected. The quotient map should be effective: in other words, in $X/G$ we should have
+
+$$q(x)=q(y) \simeq \sum (g:G), gx=y$$
+
+This identity type is a $\Sigma$-type. That's already the first hint that the quotient should be a $\Sigma$-type. And indeed a quick calculation will reveal that effectiveness indeed holds.
+
+Greg, later: ``$gx$'' is the action of $g$, so again transport. So given $p:*=*$ we have $tr_p:X(*) \to X(*)$...
+
+\section{The real outline}
+New constructions to import into HoTT: associated bundle, gauge group, Atiyah sequence, flat connection.
+\subsection{Associated bundle}
+This will be a pushout, given a $G$-bundle and an action of $G$ on the new fiber. In terms of classifying spaces, if we have $P: X \to BG$ a principal bundle, and we have a representation $\phi:BG\to A$, and we form $\phi\circ P:X \to A$ then this will represent an associated bundle of $A$-like fibers over $X$.
+\subsection{Gauge groupoid}
+A type formed from the bundle.
+\subsection{Atiyah sequence}
+An exact/fiber sequence of groupoids.
+\subsection{Connection}
+A connection is a splitting of the Atiyah sequence. By Schreier theory these are in correspondence with something.
+\subsection{Flat connection}
+A flat connection uses instead $\flat BG$.
+
 \bibliographystyle{unsrt}
-\bibliography{smoothness} 
+\bibliography{smoothness}
 
 \end{document}
