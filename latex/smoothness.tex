@@ -469,14 +469,34 @@ Prop 5.24:  $B_{\nabla}^{\mathrm{triv}}G\to B_{\nabla}G$ is a weak equivalence o
 
 The reason we want the triv space is because its description as a group action lets us compute its de Rham complex, and the proposition tells us it is also the de Rham complex of $B_{\nabla}G$. Recall that Freed-Hopkins is after a proof that the invariant polynomials of the Lie algebra are the only topological invariants of a principal bundle.
 
+\section{Freed-Hopkins in detail}
+\subsection{What are connections}
+Connections are extra structure we can add to bundles over smooth manifolds. They are not as much structure as a metric (a smoothly varying inner product on each fiber). A metric induces a connection but not vice versa.
+
+Connections are the right structure to lift things into the total space of the bundle. They are the right structure to compare fibers to each other. They are a bridge between the manifold's structure and the group structure of the bundle. They are the gauge fields of physics, which are the fields that have spin 1 and mediate all the forces. They are a more way to differentiate bundle sections, related to the one that is built in to the manifold's smooth structure. Using this differentiation to differentiate the connection itself provides the curvature of the connection. Connections and curvature are completely locally defined. The 2-sphere embedded in three-space is curved at every point. Curvature at a point is an obstruction to having a coordinate patch be an isometry at that point. If a manifold is smooth, compact and 2-dimensional then curvature can be integrated over the whole manifold. This is equal to the euler characteristic of the surface. This is the whole motivation for the story of this paper. This is local-to-global magic. Connections are extra structure, but we are using them to compute curvature, and we are using curvature to compute invariants of the ismorphism class of the bundle, independent of the connection we used. Sometimes the bundle we use is the tangent bundle, at which point we are computing homotopy invariants of the manifold by itself.
+
+Principal bundle.
+
+Connection.
+
+Parallel transport.
+
+Path groupoid.
+
+Covariant derivative.
+
+
+
+
+\subsection{What is Chern-Weil theory}
+The Chern-Weil construction is a generalization of the Gauss-Bonnet theorem. The setup is a principal bundle over a smooth manifold with structure group some Lie group. Given an "invariant polynomial" on the Lie algebra of G, we can apply that polynomial to the curvature form and get a characteristic class.
+
 \section{Linking Freed-Hopkins to Schreiber}
 If FH's $B_{\nabla}^{\mathrm{triv}}G$ is Schreiber's $\bgconn$ then we can import the sub-sheaf of flat connections into modal HoTT with $\flat\bg\hookrightarrow B_{\nabla}^{\mathrm{triv}}G$.
 
 The moral will apparently be that we appear to lose something by going to flat connections, though we of course gain something too by moving to $\infty$-categories. The moral will be that we regain what we lost and much more. ``Flat connections are not so flat''?
 
 When do we need the extra control of thin homotopies vs all homotopies? $\bgconn$ is all connections and so requires thin homotopies.
-
-Flat 2-connections with values in $\mathrm{INN}G$ model 1-connections and keep track of their curvature. (Schreiber example 1.2.127).
 
 The integrated Atiyah sequence connects with higher Schreier theory and may offer an elegant package for flat connections. The fact that it's integrated means we are talking about paths and holonomy rather than splittings of vector bundles. The latter was my original approach with differential cohesion. In the integrated framework we can deal just with flat which is dual to paths.
 
@@ -497,6 +517,8 @@ Infinitesimal Atiyah sequence: \[ 0 \to \mathrm{ad}P \to TP/G \to TX \to 0.\]
 The point is, what can you do synthetically. Freed-Hopkins lives in a model. Synthetically, with one modality, we can only do flat connections.
 
 \section{Bucholtz-vanDoren-Rijke}
+Background on connectedness from HoTT book 7.5: A type $A$ is $n$-connected if the unique function $A\to 1$ is $n$-connected (for all $b : 1$ we have $||\mathrm{fib}_f(b)||_n$ is contractible), i.e. if $||A||_n$ is contractible. If $A$ is -1-connected we say it is \emph{merely inhabited}. If it is 0-connected we say it is \emph{connected}, and if it is 1-connected we say it is \emph{simply connected}.
+
 (Section 2) The type of pointed types is $\mathrm{Type}_\mathrm{pt}$. The homotopy groups of a pointed type are $\pi_k(A) = ||{\Omega_k(A)}||_0$ i.e. the zero-truncation (so, a set, a standard group) of the loop space.
 
 (Section 3) The 1-loop map establishes an isomorphism between higher groups and pointed, connected types. Why connected? What is connected? Answer: connectedness is the truncation of contractibility: $\sum_{a:A}\prod_{x:A}||x=a||_{-1}$.
@@ -555,15 +577,34 @@ Greg, later: ``$gx$'' is the action of $g$, so again transport. So given $p:*=*$
 \section{The real outline}
 New constructions to import into HoTT: associated bundle, gauge group, Atiyah sequence, flat connection.
 \subsection{Associated bundle}
-This will be a pushout, given a $G$-bundle and an action of $G$ on the new fiber. In terms of classifying spaces, if we have $P: X \to BG$ a principal bundle, and we have a representation $\phi:BG\to A$, and we form $\phi\circ P:X \to A$ then this will represent an associated bundle of $A$-like fibers over $X$.
+$G$-actions are type families over $BG$, and given $X\to BG$ we can pull any of these back. If we pull back $G$ (as in, the right action of $G$, as a type over $BG$), we get a principal bundle. But if we pull back another action we get the associated bundle. This puts the principal bundle and the associated bundle on the same footing -- they are all actions that we pull back.
+
+A statement to make rigorous: if the image of $X$ is a contractible type containing pt, then the bundle is trivial.
 \subsection{Gauge groupoid}
-A type formed from the bundle.
+Aka $P\times_G P \to X$. The objects of the groupoid are the fibers of $P$, which of course are in 1-1 correspondence with points of $X$. The morphisms are fiber ismorphisms that are compatible with the $G$-action. This is where holonomy lives. Paths in the manifold give group actions on the fibers of $P$. The path can have separate endpoints and so we examine pairs of fibers.
+
+This specific use of two copies of $P$ only appears when we are implicitly focused on 1-paths which have two endpoints. The right object is probably $\shape P$.
+
+If $P:A\to BG$ is a principal bundle, and given an equality in the base $p: x =_A y$ we get by action-on-paths an equality $P(x)=_{BG}P(y)$ in $BG$, which lifts to any action we may have such as the right action $G$ or $G^{\mathrm{ad}}$.
 \subsection{Atiyah sequence}
-An exact/fiber sequence of groupoids.
+An exact/fiber sequence of groupoids. (See https://ncatlab.org/nlab/show/Atiyah+Lie+groupoid). Adjoint bundle/groupoid is what Bucholtz et all call $G^{\mathrm{ad}}$. The gauge groupoid is the middle object. And on the right we have $X\times X$, simply pairs of points. We want to replace this with $\shape X$ and so we need a map $\shape X \to X\times X$ and then pull back the diagram.
 \subsection{Connection}
-A connection is a splitting of the Atiyah sequence. By Schreier theory these are in correspondence with something.
+A connection is a splitting of the Atiyah sequence. By Schreier theory these are in correspondence with something. A splitting $X\times X \to P\times_G P $ is a trivialization? And a splitting $\shape X \to P\times_G P $ is a flat connection. That's our destination. Meanwhile there's another characterization that uses a map $X\to\flat BG$ to characterize a principal bundle \emph{with} a connection, whereas the principal bundle alone is characterized by $X\to BG$.
+
+In Kolor-Michor-Slovak 9.8 (p. 80) they prove parametrization invariance of transport.
 \subsection{Flat connection}
-A flat connection uses instead $\flat BG$.
+HoTT transport is parallel transport. But HoTT transport operates on equalities instead of paths. The shape modality converts paths into equalities. So given a manifold $X$, we form $\shape X$ and then select a bundle $\shape X \to BG$. Pulling back the right action $G$ type over $BG$, we get a principal bundle. Now any equality in the base can be lifted to an action on fibers and this can directly be interpreted as parallel transport, of a flat connection. We don't have to form the Atiyah sequence and split it, and we don't need the gauge groupoid as of yet. We already have our hands on flat connections just by using standard HoTT transport plus $\shape$.
+\subsection{Connections from flat connections}
+Here we will work through what Schreiber is saying in DCCT 1.2.7.1.3. Flat 2-connections with values in $\mathrm{INN}G$ model 1-connections and keep track of their curvature. (Schreiber example 1.2.127).
+
+\subsection{Defining the path groupoid in HoTT}
+A sub-goal is to define $\textbf{P}(X)$ for a type $X$ using higher inductive types. In Zulip it was suggested I follow the pattern of Licata-Finster when they defined Eilenberg-MacLane spaces. I'm reading the HoTT book chapter 6 and want to read the Cubical materials on HITs as well.
+
+Given a type $X$ we want to set all its paths to equalities, so we will have a constructor that is a function $f:\textbf{P}(X)\to =_X$ where if $p:[0,1]\to X$ then $f(p)\in f(0)=f(1)$. Then we need higher equalities for the thin homotopies, and of course arbitrary non-thin homotopies will not be made into equalities. Perhaps thin homotopies can be described as $n$-homotopies ($n>1$) whose \emph{image} is contained in the \emph{image} of one of the two paths. This will imply that the other path's image is also a subset.
+
+This object can then map to a higher group to create a principal bundle, and transport will be a connection. 
+
+Can I refer to the paths in $X$ as $||\shape X||_1$?
 
 \bibliographystyle{unsrt}
 \bibliography{smoothness}
