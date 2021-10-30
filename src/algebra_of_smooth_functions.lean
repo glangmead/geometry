@@ -159,7 +159,12 @@ instance smooth_fns_are_algebra {n : ℕ}
   map_add' := by {intros; apply subtype.eq; ext; refl},
 }
 
-instance r_smooth_mfd : smooth_manifold_with_corners r_model ℝ := {}
+-- instance r_smooth_mfd : smooth_manifold_with_corners r_model ℝ := {}
+
+def ev {n : ℕ}
+  (I : model_with_corners ℝ (euclidean_space n) (euclidean_space n))
+  (M : Type) [tm: topological_space M] [m: manifold (euclidean_space n) M] [smc: smooth_manifold_with_corners I M] 
+  : M → smooth_real_fns I M → ℝ := λ x f, f.val x
   
 end smooth
 
