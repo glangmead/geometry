@@ -1,0 +1,101 @@
+\documentclass[17pt]{extarticle}
+\usepackage{greg}
+
+\title{Connection Form Classifiers in Homotopy Type Theory}
+
+\begin{document}
+\author{Greg Langmead}
+\maketitle
+\section{David Jaz Myers' talk}
+David's informal talk was on October 15, 2021 at the MURI workshop at CMU.
+
+The setting: cohesive HoTT, localized at a real numbers object R. 
+The semantics are to be in an $\infty$ version of the SDG Dubuc topos, which itself has a choice of R, which we choose to coincide.
+The site has a special property with how the infinitesimal disks map in the topology -- I believe the maps are the identity on the disk component.
+
+
+References David mentions:
+\begin{itemize}
+\item Moerdijk and Reyes: Models for Infinitesimal Analysis \cite{moerdijk2013models}
+\item Bunge, Gago, San Luis: Synthetic Differential Topology \cite{bunge2018synthetic}
+\item Yetter: On right adjoints to exponential functors \cite{yetter1987right}
+\end{itemize}
+
+Some facts we want to recall from SDG: 
+\begin{itemize}
+	\item $TX = \mathbb{D}\to X$
+	\item foo
+\end{itemize}
+
+Externally speaking, $\mathbb{D}$ is tiny, so externally has the "amazing right adjoint". $$\mathrm{Hom}(X^{\mathbb{D}}, Y) \equiv \mathrm{Hom}(X, Y^{1/\mathbb{D}})$$ 
+
+The object $Y^{1/\mathbb{D}}$ then classifies maps from tangent vectors of $X$ to $Y$. If we take $Y=R$ then $R^{1/\mathbb{D}}$ is a 1-form classifier!
+
+How to internalize this? David cites David Yetter. Perhaps the 1987 paper "On Right Adjoints of Exponential Functors" cited at https://ncatlab.org/nlab/show/amazing+right+adjoint.
+
+David proposes internalizing this adjunction by postulating an equivalence of function types, but he first soups them up into dependent function types:
+
+* for any type $Y$ there is a type family $\varepsilon: \mathbb{D}\vdash Y^{1/\varepsilon}\  \mathrm{Type}$
+* $\sigma:((\varepsilon: \mathbb{D}) \to Y^{1/\varepsilon}) \to Y$ (the counit of this dependent version of the adjunction)
+* The function $$((\varepsilon: \mathbb{D}) \to X_{\varepsilon} \to Y^{1/\varepsilon}) \to (((\varepsilon: \mathbb{D})\to X_{\varepsilon}) \to Y)$$ sending $f\mapsto [g\mapsto \sigma(\varepsilon\mapsto f_{\varepsilon}(g(\varepsilon)))]$ is $\sharp$-connected, i.e. under sharp this is an isomorphism.
+
+The non-dependent version then looks like the adjunction: $$\sharp(X\to Y^{1/\mathbb{D}}) = \sharp(X^{\mathbb{D}} \to Y)$$
+
+David comments that this map is natural in $X$ and partially natural in $Y$ -- there's a restriction to mapping into $Y$ "from crisp variables"(?) (To have something well-typed in the presence of sharp, I presume). Natural in this context means stable under pullback?
+
+Classifying "linear forms". $X^{\mathbb{D}}$ always has an $\mathbb{R}$-action.
+
+Fact: For KL-vector spaces $V, W$, $f:V\to W$ is linear iff it is $\mathbb{R}$-equivariant.
+
+Proof: (written on whiteboard), from Kock. It's a trick with partial derivatives in the KL-vector spaces.
+
+Therefore instead of constructing a classifier for "linear 1-forms", we can classify R-equivariant 1-forms. Kock has done this: the 1-form classifier is the equalizer $$\Lambda^1(V)\to V^{1/\mathbb{D}} \Rightarrow  (V^{1/\mathbb{D}})^R$$
+where the two maps on the right (excuse the use of a 2-dim arrow for two arrows) are given by transposing $$R^{\mathbb{D}} \times (V^{1/\mathbb{D}})^{\mathbb{D}}\to V$$ $$(r, v) \Rightarrow r(0)\sigma(v) \mathrm{\ or\ }\sigma(r(0)v)$$
+
+We have stopped tracking crisp and sharp, but David believes that when we do, we will be unhappy with the limitations.
+
+Cool facts from standard SDG:
+- $d:R\to \Lambda^1(R)$ has as transpose $v\mapsto v'(0)$
+- If we have $f:R\to R$ then $df:R\to\Lambda^1$ ($df$ means composition, but it's a slick link to the classical notation). Walking this back through transposes gives the derivative of $f$ evaluated at the right basepoint.
+
+Now add another axiom, the "principal of constancy": $f:R\to R, df=0 \implies f$ constant.
+
+Form this sequence of maps: $$0\to \mathrm{ker}d\to R\xrightarrow[]{d} \Lambda^1_{\mathrm{closed}} \to 0$$
+and note that the principal of constancy tells us, via transposing (I think) that the backward map on the left, from $R\to \mathrm{ker}d$ is constant. And so we can connect back to flat and conclude that $\mathrm{ker}d = \flat R$, which recreates that $R / \flat R = \{\!$ closed 1-form classifier $\!\}$. Furthermore, by the good fibrations trick we can lift against maps and get the antiderivative $F$ of $f$ including a choice of value that fixes a unique antiderivative:
+% https://q.uiver.app/?q=WzAsNCxbMCwwLCIqIl0sWzEsMCwiXFxtYXRoYmJ7Un0iXSxbMCwxLCJcXG1hdGhiYntSfSJdLFsxLDEsIlxcTGFtYmRhXjFfXFxtYXRocm17Y2xvc2VkfSJdLFswLDEsImMiXSxbMSwzLCJkIl0sWzAsMiwiMCIsMl0sWzIsMywiZmR4IiwyXSxbMiwxLCJcXGV4aXN0cyAhRiIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dXQ==
+\[\begin{tikzcd}
+	{*} & {\mathbb{R}} \\
+	{\mathbb{R}} & {\Lambda^1_\mathrm{closed}}
+	\arrow["c", from=1-1, to=1-2]
+	\arrow["d", from=1-2, to=2-2]
+	\arrow["0"', from=1-1, to=2-1]
+	\arrow["fdx"', from=2-1, to=2-2]
+	\arrow["{\exists !F}", dashed, from=2-1, to=1-2]
+\end{tikzcd}\]
+
+Mathieu had a discussion with David about what spaces are included in this $\infty$-topos. Certain cusps will not be included perhaps. David claimed that the cuspy spaces are microlinear.
+
+Next David claimed that $\shape\Lambda^n_\mathrm{closed}(R) = \flat B^n R$. Check his modal fracture paper.
+
+\section{Principal bundles}
+
+Adjoint action of $G$. He cited the standard stuff from Buchholtz-van Doorn-Rijke. He previewed his Sunday talk by talking about $BG$ being the type of *exemplars* of $G$. Let $*$ be the base point of $BG$. The conjugation action is $(x:BG)\times x=x$. The adjoint action on the Lie algebra of $G$ is $T_\mathrm{id}(*=*)$.
+
+Or is it, $BG\to\mathrm{Type}$ where $E\mapsto T_\mathrm{id}(E=E):= (v:\mathbb{D})\to (E=E)\times (v(0)=\mathrm{id})$.
+
+David assumes $G$ is microlinear, which is a proposition. Hence $E=E$ is microlinear. 
+
+Now we can form $$(E:BG)\times\Lambda^1(T_\mathrm{id}(E=E))=: B_\nabla G$$
+and this should be the classifying space of principal bundles with connection.
+
+Let's reorganize the maps a little to see in another way that this is a connection.
+
+Form the cospan of a principal bundle and projection from this new larger classifying space: $X\xrightarrow[]{E}BG\leftarrow B_\nabla G$. What would it take to lift $E$ to a map to $E':X\to B_\nabla G$? If we reorganize the data, we can view it as a fiberwise map over $BG$: $$(e:BG)\to \mathrm{fib}_E(e)\xrightarrow[]{\omega} \Lambda^1(T_\mathrm{id}(E=E)).$$ And what is $\mathrm{fib}_E(e)$? It's $(x:X)\times(E_x=e)$.  This is the total space of the bundle that $E$ classifies. So the map $\omega$ is a 1-form on the total space of the principal bundle, with values in the Lie algebra... perfect! (So long as taking $\Lambda^1$ of a vector space corresponds to "with values in").
+
+Problem: "this is a lie because $E$ is not crisp!" In fact, to have $E$ means we are in fact in $\flat BG$ which is where we don't want to be, as we will only have flat connections.
+
+Other note: the infinitesimal disk has only one crisp point. There is only one closed term of the type of the disk, which is 0.
+
+
+\bibliography{connections}
+\end{document}
